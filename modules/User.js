@@ -30,7 +30,7 @@ const UserSchema = new Schema({
     token: {
         type: String,
         default: ''
-    }
+    },
 })
 
 const UserModel = model('user', UserSchema);
@@ -52,8 +52,9 @@ const schemaForgotPassword = Joi.object({
 })
 
 const schemaChangePassword = Joi.object({
-    password: Joi.string().min(3).required(),
-    password_confirm: Joi.any().equal(Joi.ref('password')).required().label('Confirm password').messages({ 'any.only': '{{#label}} does not match' })
+    oldPassword: Joi.string().required(),
+    newPassword: Joi.string().min(3).required(),
+    passwordConfirmation: Joi.any().equal(Joi.ref('newPassword')).required().label('Confirm password').messages({ 'any.only': '{{#label}} does not match' })
 })
 
 

@@ -1,4 +1,4 @@
-const { register, login, logout, current, forgotPassword, changePassword, update, changePasswordInAccount, getPesonalData } = require('../controllers/auth');
+const { register, login, logout, current, forgotPassword, changePassword, update } = require('../controllers/auth');
 const { validateBody, checkAuth, uploadAvatar } = require('../middleware');
 const { schemaUserRegister, schemaUserLogin, schemaForgotPassword, schemaChangePassword } = require('../modules/User');
 const route = require('express').Router();
@@ -19,13 +19,10 @@ route.get('/current', checkAuth, current);
 route.post('/forgot-password', validateBody(schemaForgotPassword), forgotPassword);
 
 //Change password 
-route.patch('/change-password/:email', validateBody(schemaChangePassword), changePassword);
+route.patch('/change-password', checkAuth, validateBody(schemaChangePassword), changePassword);
 
 //Update user 
 route.patch('/update', checkAuth, uploadAvatar.single('avatar'), update);
-
-// Change password in user account 
-route.patch('/update-password', checkAuth, validateBody(schemaChangePassword), changePasswordInAccount);
 
 
 module.exports = route

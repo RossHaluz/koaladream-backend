@@ -95,41 +95,23 @@ res.json({
 }
 
 const changePassword = async(req, res) => {
-    const {email} = req.params;
-    const {password} = req.body;
-    const user = await UserModel.findOne({email});
+    const {id} = req.userId;
+    const {oldPassword, newPassword} = req.body;
+    const user = await UserModel.findOne({_id: id});
     if(!user) {
         throw HttpError(404, 'User not found')
     }
-    const hashPassword = await bcrypt.hash(password, 10)
+    const auditOldPassword = await bcrypt.compare(oldPassword, user.password);
+    if(!auditOldPassword){
+        throw HttpError(400, "Old password is not correct");
+    }
+
+    const hashPassword = await bcrypt.hash(newPassword, 10)
     const updateUser = await UserModel.findByIdAndUpdate(user._id, {password: hashPassword}, {new: true});
 
     res.json({
         updateUser,
         message: 'Password success change'
-    })
-}
-
-const changePasswordInAccount = async (req, res) => {
-    const {userEmail} = req.params;
-    const {oldPassword, newPassword} = req.body;
-    const user = await UserModel.findOne({email: userEmail});
-    if(!user){
-        throw HttpError(404, 'User not found');
-    }
-    const auditOldPass = await bcrypt.compare(oldPassword, user.password);
-    if(!auditOldPass){
-        throw HttpError(401, "Old password is not correct");
-    }
-    const hashPassword = await bcrypt.hash(newPassword, 10);
-    const updatePassword = await UserModel.findByIdAndUpdate(user._id, {password: hashPassword}, {new: true});
-    if(!updatePassword){
-        throw HttpError(401, 'Something is wrong...');
-    }
-
-    res.json({
-        updatePassword,
-        message: "Password success change"
     })
 }
 
@@ -160,5 +142,4 @@ module.exports = {
     forgotPassword: CtrlWrapperr(forgotPassword),
     changePassword: CtrlWrapperr(changePassword),
     update: CtrlWrapperr(update),
-    changePasswordInAccount: CtrlWrapperr(changePasswordInAccount),
 }

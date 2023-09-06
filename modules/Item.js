@@ -2,7 +2,7 @@ const {Schema, model} = require('mongoose');
 
 const ItemSchema = new Schema({
     images: {
-        type: []
+        type: [String]
     },
     title: {
         type: String,
@@ -13,9 +13,9 @@ const ItemSchema = new Schema({
         enum: ['В наявності', 'Немає в наявності'],
         require:  true
     },
-    size: {
-        type: String, 
-        require: true
+    params: {
+        type: Object,
+        default: {},
     },
     article: {
         type: String,
@@ -37,5 +37,22 @@ const ItemSchema = new Schema({
     care: {
         type: String
     },
-
+    hitSales: {
+        type: Boolean,
+        default: false,
+    },
+    similarProducts: {
+        type: Schema.Types.ObjectId
+    },
+    category: {
+        type: Schema.Types.ObjectId,
+        require: true,
+        ref: 'Categories'
+    }
 })
+
+const ItemModel = model('item', ItemSchema);
+
+module.exports = {
+    ItemModel
+}
