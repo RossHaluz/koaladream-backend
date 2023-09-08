@@ -13,13 +13,13 @@ const ItemSchema = new Schema({
         enum: ['В наявності', 'Немає в наявності'],
         require:  true
     },
-    params: {
-        type: Object,
-        default: {},
-    },
     article: {
         type: String,
         require: true
+    },
+    params: {
+       type: Object,
+       default: {}
     },
     price: {
         type: String,
