@@ -31,6 +31,10 @@ const UserSchema = new Schema({
         type: String,
         default: ''
     },
+    posts: {
+        type: [Schema.Types.ObjectId],
+        ref: 'Blog'
+    }
 })
 
 const UserModel = model('user', UserSchema);

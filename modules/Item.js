@@ -2,7 +2,8 @@ const {Schema, model} = require('mongoose');
 
 const ItemSchema = new Schema({
     images: {
-        type: [String]
+        type: Array,
+        default: []
     },
     title: {
         type: String,
@@ -11,7 +12,7 @@ const ItemSchema = new Schema({
     status: {
         type: String,
         enum: ['В наявності', 'Немає в наявності'],
-        require:  true
+        require:  true,
     },
     article: {
         type: String,

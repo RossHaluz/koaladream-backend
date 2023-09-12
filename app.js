@@ -6,6 +6,7 @@ dotenv.config();
 const authRoute = require('./routes/auth');
 const categoryRoute = require('./routes/categories');
 const itemRoute = require('./routes/item');
+const blogRoute = require('./routes/blog');
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(cors());
 app.use('/api/user', authRoute);
 app.use('/api/category', categoryRoute);
 app.use('/api/item', itemRoute);
+app.use('/api/blog', blogRoute);
 
 app.use((req, res) => {
     res.status(404).json({ message: "Not found" });
