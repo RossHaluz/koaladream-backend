@@ -8,7 +8,7 @@ const ItemSchema = new Schema({
   },
   categoryName: {
     type: String,
-    require: true
+    require: true,
   },
   title: {
     type: String,
@@ -18,20 +18,19 @@ const ItemSchema = new Schema({
     type: String,
     enum: ["В наявності", "Немає в наявності"],
     default: "В наявності",
-    require: true
+    require: true,
   },
   article: {
     type: String,
     require: true,
   },
-  size: {
+  filters: {
     type: [String],
-    enum: ["Полуторний", "Двоспальний", "Двоспальний євро", "Сімейний"],
-    required: true,
+    default: [],
   },
-  cloth: {
-    type: String
-  },
+
+  
+
   price: {
     type: String,
     require: true,
@@ -44,7 +43,7 @@ const ItemSchema = new Schema({
   },
   characteristics: {
     type: [Object],
-    default: []
+    default: [],
   },
   care: {
     type: String,
@@ -67,21 +66,24 @@ const itemSchema = Joi.object({
   images: Joi.array().items(Joi.string()),
   categoryName: Joi.string().required(),
   status: Joi.string().required(),
+  filters: Joi.array().items(Joi.string()),
   article: Joi.string().required(),
   size: Joi.array().items(Joi.string()),
   cloth: Joi.string(),
   price: Joi.string().required(),
   oldPrice: Joi.string(),
   desc: Joi.string(),
-  characteristics: Joi.array().items(Joi.object().keys({
-    name: Joi.string(),
-    text: Joi.string()
-  })),
+  characteristics: Joi.array().items(
+    Joi.object().keys({
+      name: Joi.string(),
+      text: Joi.string(),
+    })
+  ),
   care: Joi.string(),
   hitSales: Joi.boolean(),
 });
 
 module.exports = {
   ItemModel,
-  itemSchema
+  itemSchema,
 };

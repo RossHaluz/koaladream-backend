@@ -1,15 +1,27 @@
-const { createOption, getOptions, getOptionValues } = require('../controllers/option');
-const { checkAuth, validateBody } = require('../middleware');
-const { optionSchema } = require('../modules/Option');
-const route = require('express').Router();
+const {
+  createOption,
+  getOptions,
+  deleteOption,
+  updateOption,
+  getOption,
+} = require("../controllers/option");
+const { checkAuth, validateBody } = require("../middleware");
+const { optionSchema } = require("../modules/Option");
+const route = require("express").Router();
 
 //Add new option
-route.post('/add-option', checkAuth, validateBody(optionSchema), createOption);
+route.post("/add-option", validateBody(optionSchema), createOption);
 
 //Get options
-route.get('/get-options', getOptions);
+route.get("/get-options", getOptions);
 
-//Get option values
-route.get('/get-optionValues/:nameOption', getOptionValues);
+//Delete option
+route.delete("/delete-option/:optionId", deleteOption);
+
+//Get option
+route.get("/get-option/:optionId", getOption);
+
+//Update option
+route.post("/update-option/:optionId", updateOption);
 
 module.exports = route;
