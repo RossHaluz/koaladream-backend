@@ -7,7 +7,10 @@ const CategoriesSchema = new Schema({
         default: '',
         require: true
     },
-    img: {
+    desc: {
+        type: String,
+    },
+    image: {
         type: String,
         default: '',
         require: true
@@ -18,7 +21,8 @@ const CategoriesModel = model('category', CategoriesSchema);
 
 const categoriesSchema = Joi.object({
     title: Joi.string().required(),
-    img: Joi.string().required()
+    desc: Joi.string(),
+    image: Joi.string().required()
 })
 
 module.exports = {

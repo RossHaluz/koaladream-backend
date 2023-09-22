@@ -22,6 +22,6 @@ route.delete("/delete-option/:optionId", deleteOption);
 route.get("/get-option/:optionId", getOption);
 
 //Update option
-route.post("/update-option/:optionId", updateOption);
+route.put("/update-option/:optionId", updateOption);
 
 module.exports = route;

@@ -28,9 +28,6 @@ const ItemSchema = new Schema({
     type: [String],
     default: [],
   },
-
-  
-
   price: {
     type: String,
     require: true,

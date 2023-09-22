@@ -1,7 +1,9 @@
 const {
   createFilter,
   getAllFilters,
+  deleteFilter, 
   getFilter,
+  updateFilter
 } = require("../controllers/filter");
 const { validateBody, checkAuth } = require("../middleware");
 const { FilterModel, filterSchema } = require("../modules/Filter");
@@ -13,7 +15,14 @@ route.post("/add-filter", validateBody(filterSchema), createFilter);
 //Get all filters
 route.get("/get-filters", getAllFilters);
 
-//Get filter options
-route.get("/get-filter/:filterName", getFilter);
+//Delete filter
+route.delete('/delete-filter/:filterId', deleteFilter);
+
+//Get filter
+route.get('/get-filter/:filterId', getFilter);
+
+//Update filter 
+route.put('/update-filter/:filterId', updateFilter);
+
 
 module.exports = route;

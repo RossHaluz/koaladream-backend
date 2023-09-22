@@ -22,17 +22,48 @@ res.json(getFilters);
 }
 
 const getFilter = async (req, res) => {
-const {filterName} = req.params;
-const getFilter = await FilterModel.findOne({name: filterName});
+const {filterId} = req.params;
+const getFilter = await FilterModel.findOne({_id: filterId});
 if(!getFilter){
     throw HttpError(404, 'Filter not found');
 }
 
-res.json(getFilter);
+const filters = await FilterModel.find();
+
+res.json({
+    getFilter,
+    filters
+});
 }
+
+const deleteFilter = async(req, res) => {
+    const {filterId} = req.params;
+    const item = await FilterModel.findByIdAndDelete(filterId);
+    if(!item){
+        throw HttpError(404, 'Item not found')
+    }
+
+    res.json({
+        item,
+        message: 'Iteme success delete'
+    })
+}
+
+const updateFilter = async(req, res) => {
+    const {filterId} = req.params;
+    const item = await FilterModel.findByIdAndUpdate(filterId, {...req.body}, {new: true});
+    if(!item){
+        throw HttpError(404, 'Item not found')
+    }
+
+    res.json(item);
+}
+
 
 module.exports = {
     createFilter: CtrlWrapperr(createFilter),
     getAllFilters: CtrlWrapperr(getAllFilters),
-    getFilter: CtrlWrapperr(getFilter)
+    getFilter: CtrlWrapperr(getFilter),
+    deleteFilter: CtrlWrapperr(deleteFilter),
+    updateFilter: CtrlWrapperr(updateFilter)
 }
