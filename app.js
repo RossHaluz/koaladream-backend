@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 dotenv.config();
+// const bodyParser = require('body-parser');
 
 const authRoute = require("./routes/auth");
 const categoryRoute = require("./routes/categories");
@@ -14,11 +15,12 @@ const adminAuthRoute = require("./routes/adminAuth");
 const app = express();
 
 app.use(express.json());
+// app.use(bodyParser.json());
 app.use(cors());
 
+app.use("/api/item", itemRoute);
 app.use("/api/user", authRoute);
 app.use("/api/category", categoryRoute);
-app.use("/api/item", itemRoute);
 app.use("/api/blog", blogRoute);
 app.use("/api/option", optionRoute);
 app.use("/api/adminAuth", adminAuthRoute);

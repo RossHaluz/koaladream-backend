@@ -1,22 +1,10 @@
-const route = require("express").Router();
-const {
-  addItem,
-  getHitsItems,
-  getCategoryItems,
-  getItemDetails,
-  filterItems,
-} = require("../controllers/item");
-const { validateBody } = require("../middleware");
-const { uploadAvatar } = require("../middleware/upload");
+const { getHitsItems, getCategoryItems, getItemDetails, filterItems, getAllItems, updateItem, addItem, deleteItem } = require('../controllers/item');
+const { validateBody, uploadAvatar } = require("../middleware");
 const { itemSchema } = require("../modules/Item");
+const route = require("express").Router();
 
-//Add item
-route.post(
-  "/add-item",
-  validateBody(itemSchema),
-  uploadAvatar.single("imageItem"),
-  addItem
-);
+//Filter items
+route.get("/filter-items", filterItems);
 
 //Get hits itams
 route.get("/get-hitsItems", getHitsItems);
@@ -27,7 +15,18 @@ route.get("/get-items/:category", getCategoryItems);
 //Get item details
 route.get("/item-details/:itemId", getItemDetails);
 
-//Filter items
-route.get("/filter-items", filterItems);
+//Get all items 
+route.get('/all-items', getAllItems);
+
+//Update item 
+route.post('/update-item/:itemId', uploadAvatar.single("updateImage"), updateItem);
+
+//Add item
+route.post("/add-item", uploadAvatar.single("imageItem"), addItem);
+
+// validateBody(itemSchema)
+
+//Delete item 
+route.delete('/delete-item/:itemId', deleteItem);
 
 module.exports = route;

@@ -3,12 +3,16 @@ const Joi = require("joi");
 
 const ItemSchema = new Schema({
   images: {
-    type: [String],
-    default: [],
+    type: String,
+    default: ''
   },
   categoryName: {
     type: String,
     require: true,
+  },
+  options: {
+    type: [Object],
+    default: [],
   },
   title: {
     type: String,
@@ -16,7 +20,7 @@ const ItemSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ["В наявності", "Немає в наявності"],
+    enum: ["В наявності", 'Закінчується', "Немає в наявності"],
     default: "В наявності",
     require: true,
   },
@@ -25,7 +29,7 @@ const ItemSchema = new Schema({
     require: true,
   },
   filters: {
-    type: [String],
+    type: [Object],
     default: [],
   },
   price: {
@@ -60,12 +64,12 @@ const ItemModel = model("item", ItemSchema);
 
 const itemSchema = Joi.object({
   title: Joi.string().required(),
-  images: Joi.array().items(Joi.string()),
+  images: Joi.string(),
   categoryName: Joi.string().required(),
   status: Joi.string().required(),
-  filters: Joi.array().items(Joi.string()),
+  options: Joi.array().items(Joi.object()),
+  filters: Joi.array().items(Joi.object()),
   article: Joi.string().required(),
-  size: Joi.array().items(Joi.string()),
   cloth: Joi.string(),
   price: Joi.string().required(),
   oldPrice: Joi.string(),

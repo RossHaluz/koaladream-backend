@@ -1,4 +1,4 @@
-const { HttpError, CtrlWrapperr } = require("../healpers");
+ const {  HttpError, CtrlWrapperr } = require("../healpers");
 const { FilterModel } = require("../modules/Filter");
 const { ItemModel } = require("../modules/Item");
 const { OptionModel } = require("../modules/Option");
@@ -6,10 +6,23 @@ const { CategoriesModel } = require("../modules/Сategories");
 const pagination = require("../utils/pagination");
 
 const addItem = async (req, res) => {
-  const { categoryName, size } = req.body;
+  const { categoryName } = req.body;
+  console.log(categoryName);
   const findCategory = await CategoriesModel.findOne({ title: categoryName });
   if (!findCategory) {
     throw HttpError(404, "Category not found");
+  }
+
+
+  if(req.file){
+   const {path} = req.file;
+   const createItemWithImg = await ItemModel.create({
+    ...req.body,
+    images: path,
+    category: findCategory._id,
+   })
+
+   return res.json(createItemWithImg)
   }
 
   const newItem = await ItemModel.create({
@@ -70,16 +83,71 @@ const getItemDetails = async (req, res) => {
 };
 
 const filterItems = async (req, res) => {
-  const queryParams = Object.values(req.query);
-  const items = await ItemModel.find();
+    const items = await ItemModel.find();
+    const filters = items.map(item => item.filters.map(item => JSON.parse(item)))
+  
+    res.json(filters);
+  };
+   
+  
+  
 
-  // res.json(filterItems);
-};
+const getAllItems = async(req, res) => {
+  const items = await ItemModel.find();
+  if(!items){
+    throw HttpError(404, 'Items not found');
+  }
+
+  res.json(items)
+}
+
+const updateItem = async(req, res) => {
+  const {itemId} = req.params;
+  const {categoryName} = req.body;
+  const category = await CategoriesModel.findOne({title: categoryName});
+  if(!category){
+    throw HttpError(404, 'Category not found');
+  }
+
+  if(req.file){
+    const {path} = req.file;
+    const updateItemWithImg = await ItemModel.findByIdAndUpdate(itemId, {
+      ...req.body,
+      images: path,
+    category: category._id,
+    }, {new: true})
+
+  return res.json(updateItemWithImg);
+
+  }
+  const item = await ItemModel.findByIdAndUpdate(itemId, {
+    ...req.body,
+    category: category._id
+  }, {new: true})
+
+  res.json(item);
+}
+
+const deleteItem = async(req, res) => {
+    const {itemId} = req.params;
+    const item = await ItemModel.findByIdAndDelete(itemId)
+    if(!item){
+        throw HttpError(404, 'Item not found');
+    }
+
+    res.json({
+        item,
+        message: 'Item success delete'
+    })
+}
 
 module.exports = {
-  addItem: CtrlWrapperr(addItem),
   getHitsItems: CtrlWrapperr(getHitsItems),
   getCategoryItems: CtrlWrapperr(getCategoryItems),
   getItemDetails: CtrlWrapperr(getItemDetails),
   filterItems: CtrlWrapperr(filterItems),
+  getAllItems: CtrlWrapperr(getAllItems),
+  updateItem: CtrlWrapperr(updateItem),
+  addItem: CtrlWrapperr(addItem),
+  deleteItem: CtrlWrapperr(deleteItem)
 };

@@ -6,7 +6,7 @@ const {
   updateFilter
 } = require("../controllers/filter");
 const { validateBody, checkAuth } = require("../middleware");
-const { FilterModel, filterSchema } = require("../modules/Filter");
+const { filterSchema } = require("../modules/Filter");
 const route = require("express").Router();
 
 //Create a new filter
