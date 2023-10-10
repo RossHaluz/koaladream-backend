@@ -19,10 +19,10 @@ route.get("/item-details/:itemId", getItemDetails);
 route.get('/all-items', getAllItems);
 
 //Update item 
-route.post('/update-item/:itemId', uploadAvatar.single("updateImage"), updateItem);
+route.post('/update-item/:itemId', uploadAvatar.array("updateImage"), updateItem);
 
 //Add item
-route.post("/add-item", uploadAvatar.single("imageItem"), addItem);
+route.post("/add-item", uploadAvatar.array("imageItem"), addItem);
 
 // validateBody(itemSchema)
 

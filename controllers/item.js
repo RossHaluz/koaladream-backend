@@ -7,18 +7,17 @@ const pagination = require("../utils/pagination");
 
 const addItem = async (req, res) => {
   const { categoryName } = req.body;
-  console.log(categoryName);
   const findCategory = await CategoriesModel.findOne({ title: categoryName });
   if (!findCategory) {
     throw HttpError(404, "Category not found");
   }
 
-
-  if(req.file){
-   const {path} = req.file;
+  if(req.files){
+    const imgArray = [];
+    req.files.map(item => imgArray.push(item.path))
    const createItemWithImg = await ItemModel.create({
     ...req.body,
-    images: path,
+    images: imgArray,
     category: findCategory._id,
    })
 
@@ -83,10 +82,8 @@ const getItemDetails = async (req, res) => {
 };
 
 const filterItems = async (req, res) => {
-    const items = await ItemModel.find();
-    const filters = items.map(item => item.filters.map(item => JSON.parse(item)))
-  
-    res.json(filters);
+   const {filters} = req.query;
+   
   };
    
   
@@ -109,11 +106,12 @@ const updateItem = async(req, res) => {
     throw HttpError(404, 'Category not found');
   }
 
-  if(req.file){
-    const {path} = req.file;
+  if(req.files){
+   const imgArray = [];
+   req.files.map(item => imgArray.push(item.path));
     const updateItemWithImg = await ItemModel.findByIdAndUpdate(itemId, {
       ...req.body,
-      images: path,
+      images: imgArray,
     category: category._id,
     }, {new: true})
 

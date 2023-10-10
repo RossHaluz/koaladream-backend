@@ -11,6 +11,7 @@ const blogRoute = require("./routes/blog");
 const optionRoute = require("./routes/option");
 const filterRoute = require("./routes/filter");
 const adminAuthRoute = require("./routes/adminAuth");
+const orderRoute = require('./routes/order');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use("/api/blog", blogRoute);
 app.use("/api/option", optionRoute);
 app.use("/api/adminAuth", adminAuthRoute);
 app.use("/api/filter", filterRoute);
+app.use("/api/order", orderRoute);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
