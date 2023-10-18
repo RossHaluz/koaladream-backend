@@ -3,7 +3,7 @@ const Joi = require("joi");
 
 const ItemSchema = new Schema({
   images: {
-    type: Array,
+    type: [String],
     default: []
   },
   categoryName: {
@@ -64,7 +64,7 @@ const ItemModel = model("item", ItemSchema);
 
 const itemSchema = Joi.object({
   title: Joi.string().required(),
-  images: Joi.array(),
+  images: Joi.array().items(Joi.string()),
   categoryName: Joi.string().required(),
   status: Joi.string().required(),
   options: Joi.array().items(Joi.object()),

@@ -12,11 +12,12 @@ const register = async (req, res) => {
         throw HttpError(400, 'User already is register');
     }
 
-const hashPassword =  bcrypt.hash(password, 10);
+const hashPassword = await bcrypt.hash(password, 10);
 const createUser = await UserModel.create({
     ...req.body,
     password: hashPassword,
 });
+
 
 if(!createUser){
     throw HttpError(400, 'Something is wrong...')

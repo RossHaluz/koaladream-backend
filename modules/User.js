@@ -7,7 +7,7 @@ const UserSchema = new Schema({
         require: true,
     },
     phone: {
-        type: Number,
+        type: String,
         min: 10
     },
     password: {
@@ -40,10 +40,10 @@ const UserSchema = new Schema({
 const UserModel = model('user', UserSchema);
 
 const schemaUserRegister = Joi.object({
-    userName: Joi.string().required(),
+    userName: Joi.string(),
     email: Joi.string().email().required(),
     password: Joi.string().min(3),
-    passwordConfirmation: Joi.any().equal(Joi.ref('password')).required().label('Confirm password').messages({ 'any.only': '{{#label}} does not match' })
+    phone: Joi.string().min(10)
 })
 
 const schemaUserLogin = Joi.object({
@@ -58,7 +58,6 @@ const schemaForgotPassword = Joi.object({
 const schemaChangePassword = Joi.object({
     oldPassword: Joi.string().required(),
     newPassword: Joi.string().min(3).required(),
-    passwordConfirmation: Joi.any().equal(Joi.ref('newPassword')).required().label('Confirm password').messages({ 'any.only': '{{#label}} does not match' })
 })
 
 

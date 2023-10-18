@@ -107,19 +107,22 @@ const updateItem = async(req, res) => {
   }
 
   if(req.files){
+const {updateImage} = req.body;
    const imgArray = [];
    req.files.map(item => imgArray.push(item.path));
     const updateItemWithImg = await ItemModel.findByIdAndUpdate(itemId, {
       ...req.body,
-      images: imgArray,
+      images: imgArray.length > 0 ? imgArray : updateImage,
     category: category._id,
     }, {new: true})
 
   return res.json(updateItemWithImg);
 
   }
+
   const item = await ItemModel.findByIdAndUpdate(itemId, {
     ...req.body,
+    images: req.body.images,
     category: category._id
   }, {new: true})
 

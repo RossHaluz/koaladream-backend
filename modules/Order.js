@@ -1,11 +1,11 @@
 const {Schema, model} = require('mongoose');
 
 const OrderSchema = new Schema({
-    firstname: {
+    firstName: {
         type: String,
         require: true
     },
-    surname: {
+    lastName: {
         type: String,
         require: true
     },
@@ -13,11 +13,23 @@ const OrderSchema = new Schema({
         type: Number,
         require: true
     },
-    payment: {
+    email: {
+        type: String
+    },
+    postalService: {
         type: String,
         require: true
     },
-    delivery: {
+    address:{
+        type: String,
+    },
+    city: {
+        type: String,
+    },
+    department:{
+        type: String
+    },
+    payment: {
         type: String,
         require: true
     },
@@ -25,13 +37,16 @@ const OrderSchema = new Schema({
         type: String,
     },
     items: { 
-        type: [Schema.Types.ObjectId],
-        ref: 'Item'
+        type: [Object],
+    },
+    dateAdded: {
+        type: Date
     }
+    
 })
 
 const OrderModel = model('order', OrderSchema);
 
-exports.model = { 
+module.exports = { 
     OrderModel
 }
