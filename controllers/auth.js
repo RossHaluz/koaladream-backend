@@ -1,4 +1,4 @@
-const { CtrlWrapperr, HttpError, sendMail } = require("../healpers");
+const { HttpError, sendMail, CtrlWrapperr } = require("../healpers");
 const { UserModel } = require("../modules/User");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
