@@ -82,12 +82,30 @@ const getItemDetails = async (req, res) => {
 };
 
 const filterItems = async (req, res) => {
-   const {filters} = req.query;
-   
-  };
-   
+  const { filters } = req.query;
+  const {category} = req.params;
   
+  const selectFilters = filters.split(',');
+  const items = await ItemModel.find({categoryName: category});
+
+  if(selectFilters[0] !== ''){
+      // Фільтруйте товари на основі вибраних фільтрів
+      const filterItemsByFilter = items.filter((item) => {
+        const itemFilters = JSON.parse(item.filters);
+        const itemOptions = itemFilters.flatMap((filter) => filter.options.map(option => option.name));
+        
+        // Перевірте, чи вміщуються всі вибрані фільтри в товар
+        return selectFilters.some((selectedFilter) =>
+          itemOptions.includes(selectedFilter)
+        );
+      });
+      
+      return res.json(filterItemsByFilter); 
+  } 
   
+    res.json(items);
+};
+   
 
 const getAllItems = async(req, res) => {
   const items = await ItemModel.find();

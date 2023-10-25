@@ -4,7 +4,7 @@ const { itemSchema } = require("../modules/Item");
 const route = require("express").Router();
 
 //Filter items
-route.get("/filter-items", filterItems);
+route.get("/filter-items/:category", filterItems);
 
 //Get hits itams
 route.get("/get-hitsItems", getHitsItems);

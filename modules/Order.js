@@ -41,6 +41,11 @@ const OrderSchema = new Schema({
     },
     dateAdded: {
         type: Date
+    },
+    status: {
+        type: String,
+        default: 'Очікування',
+        enum: ['В обробці менеджера', 'Замовлення оброблене', 'Очікування']
     }
     
 })
