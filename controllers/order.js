@@ -1,10 +1,21 @@
 const { CtrlWrapperr, HttpError } = require('../healpers');
 const { OrderModel } = require('../modules/Order');
+const { UserModel } = require('../modules/User');
 
 const createNewOrder = async (req, res) => {
+    const {email} = req.body;
+
     const order = await OrderModel.create({
         ...req.body,
     })
+
+    if(email) {
+        const findUser = await UserModel.findOne({email});
+    
+        await UserModel.findByIdAndUpdate(findUser._id, {
+            $push: {orders: order._id}
+        }, {new: true})
+    }
 
     res.json(order)
 }

@@ -34,6 +34,10 @@ const UserSchema = new Schema({
     posts: {
         type: [Schema.Types.ObjectId],
         ref: 'Blog'
+    },
+    orders: {
+        type: [Schema.Types.ObjectId],
+        ref: 'Order'
     }
 })
 
