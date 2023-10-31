@@ -46,6 +46,9 @@ const OrderSchema = new Schema({
         type: String,
         default: 'Очікування',
         enum: ['В обробці менеджера', 'Замовлення оброблене', 'Очікування']
+    },
+    numberOrder: {
+        type: Number,
     }
     
 })

@@ -12,6 +12,7 @@ const optionRoute = require("./routes/option");
 const filterRoute = require("./routes/filter");
 const adminAuthRoute = require("./routes/adminAuth");
 const orderRoute = require('./routes/order');
+const reviewsRoute = require('./routes/reviews');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use("/api/option", optionRoute);
 app.use("/api/adminAuth", adminAuthRoute);
 app.use("/api/filter", filterRoute);
 app.use("/api/order", orderRoute);
+app.use('/api/reviews', reviewsRoute);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });

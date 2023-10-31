@@ -54,11 +54,25 @@ const getOrder = async (req, res) => {
     res.json(order)
 }
 
+const getOrdersUser = async(req, res) => {
+    const {id} = req.userId;
+    const user = await UserModel.findById(id); 
+
+    const orders = await Promise.all(
+        user.orders.map(item => {
+            return OrderModel.findOne({_id: item})
+        })
+    )
+
+    res.json(orders);
+}
+
 
 module.exports = { 
     createNewOrder: CtrlWrapperr(createNewOrder),
     getOrders: CtrlWrapperr(getOrders),
     deleteOrder: CtrlWrapperr(deleteOrder),
     updateOrder: CtrlWrapperr(updateOrder),
-    getOrder: CtrlWrapperr(getOrder)
+    getOrder: CtrlWrapperr(getOrder),
+    getOrdersUser: CtrlWrapperr(getOrdersUser)
 }

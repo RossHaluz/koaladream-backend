@@ -58,6 +58,10 @@ const ItemSchema = new Schema({
     require: true,
     ref: "Categories",
   },
+  reviews: {
+    type: [Schema.Types.ObjectId],
+    ref: 'Review'
+  }
 });
 
 const ItemModel = model("item", ItemSchema);

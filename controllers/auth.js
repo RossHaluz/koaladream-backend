@@ -9,6 +9,7 @@ const register = async (req, res) => {
     const { email, password} = req.body;
     const user = await UserModel.findOne({email});
     if(user) {
+        console.log('hello');
         throw HttpError(400, 'User already is register');
     }
 
